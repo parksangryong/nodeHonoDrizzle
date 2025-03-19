@@ -13,9 +13,9 @@ import { authenticateToken } from "./middleware/auth.middleware";
 import { rateLimit } from "./middleware/rateLimit.middleware";
 
 //routes
-import employees from "./routes/employees";
 import auth from "./routes/auth";
 import uploads from "./routes/uploads";
+import users from "./routes/users";
 
 const app = new Hono();
 
@@ -37,9 +37,17 @@ app.use("/employees/*", authenticateToken);
 app.use("/uploads/*", authenticateToken);
 
 // 보호된 라우트들
-app.route("/employees", employees);
+app.route("/users", users);
 app.route("/uploads", uploads);
 
-export default app;
+const PORT = process.env.PORT || 3000;
 
-serve(app);
+serve(
+  {
+    port: Number(PORT),
+    fetch: app.fetch,
+  },
+  (info) => {
+    console.log(`서버가 포트 ${info.port}에서 실행 중입니다.`);
+  }
+);
