@@ -11,6 +11,9 @@
 # deps
 node_modules/
 
+# db
+/src/db/schema
+
 # env
 .env
 .env.production

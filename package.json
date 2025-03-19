@@ -6,10 +6,17 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.8",
-    "hono": "^4.7.4"
+    "dayjs": "^1.11.13",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.40.1",
+    "hono": "^4.7.4",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.13.0"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20.11.17",
+    "drizzle-kit": "^0.30.5",
     "tsx": "^4.7.1"
   }
 }
