@@ -1,8 +1,19 @@
 {
-  "name": "test-app2",
+  "name": "node-hono-drizzle-template",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "pm2 start dist/index.js --name 'nodeTemplate' -i max --watch",
+    "stop": "pm2 stop nodeTemplate",
+    "restart": "pm2 restart nodeTemplate",
+    "delete": "pm2 delete nodeTemplate",
+    "list": "pm2 list",
+    "logs": "pm2 logs nodeTemplate",
+    "deploy": "npm run build && npm run start",
+    "db:generate": "drizzle-kit generate:mysql",
+    "db:push": "drizzle-kit push:mysql",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.8",
@@ -11,12 +22,14 @@
     "drizzle-orm": "^0.40.1",
     "hono": "^4.7.4",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.13.0"
+    "mysql2": "^3.13.0",
+    "pm2": "^6.0.5"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20.11.17",
     "drizzle-kit": "^0.30.5",
-    "tsx": "^4.7.1"
+    "tsx": "^4.7.1",
+    "typescript": "^5.8.2"
   }
 }
