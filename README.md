@@ -29,33 +29,33 @@ open http://localhost:3000
 ### script 설명
 
 ```sh # 개발 모드 실행
-npm run dev
+npm run dev // 개발 모드 실행
 ```
 
 ```sh # 빌드 실행
-npm run build
+npm run build // 빌드 실행
 ```
 
 ```sh # pm2 실행
-npm run start
+npm run start // pm2 실행
 ```
 
 ```sh # pm2 중지
-npm run stop
+npm run stop // pm2 중지
 ```
 
 ```sh # 서버 배포
-npm run deploy
+npm run deploy // 서버 배포
 ```
 
 ```sh # 스키마 생성
-npm run db:generate
+npm run db:generate // 스키마 생성
 ```
 
 ```sh # 스키마 저장
-npm run db:push
+npm run db:push // 스키마 저장
 ```
 
 ```sh # 스키마 확인
-npm run db:studio
+npm run db:studio // 스키마 확인
 ```
