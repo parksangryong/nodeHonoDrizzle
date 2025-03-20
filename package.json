@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "start": "pm2 start dist/index.js --name 'nodeTemplate' -i max --watch",
+    "start": "pm2 start dist/index.js --name 'nodeTemplate' -i max",
     "stop": "pm2 stop nodeTemplate",
     "restart": "pm2 restart nodeTemplate",
     "delete": "pm2 delete nodeTemplate",
