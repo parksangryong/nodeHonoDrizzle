@@ -11,9 +11,9 @@
     "list": "pm2 list",
     "logs": "pm2 logs nodeTemplate",
     "deploy": "npm run build && npm run start",
-    "db:generate": "drizzle-kit generate:mysql",
-    "db:push": "drizzle-kit push:mysql",
-    "db:studio": "drizzle-kit studio"
+    "db:generate": "npx drizzle-kit generate:mysql",
+    "db:push": "npx drizzle-kit push:mysql",
+    "db:studio": "npx drizzle-kit studio"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.8",
