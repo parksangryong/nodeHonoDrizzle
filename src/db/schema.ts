@@ -1,4 +1,4 @@
-import { int, mysqlTable, serial, varchar } from "drizzle-orm/mysql-core";
+import { mysqlTable, serial, varchar, int } from "drizzle-orm/mysql-core";
 
 // DB 테이블 생성
 export const users = mysqlTable("users", {
