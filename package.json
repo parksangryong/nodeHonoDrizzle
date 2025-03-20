@@ -11,8 +11,8 @@
     "list": "pm2 list",
     "logs": "pm2 logs nodeTemplate",
     "deploy": "npm run build && npm run start",
-    "db:generate": "npx drizzle-kit generate:mysql",
-    "db:push": "npx drizzle-kit push:mysql",
+    "db:introspect": "npx drizzle-kit introspect",
+    "db:push": "npx drizzle-kit push",
     "db:studio": "npx drizzle-kit studio"
   },
   "dependencies": {
