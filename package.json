@@ -17,13 +17,15 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.8",
+    "@hono/zod-validator": "^0.4.3",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
     "drizzle-orm": "^0.40.1",
     "hono": "^4.7.4",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.13.0",
-    "pm2": "^6.0.5"
+    "pm2": "^6.0.5",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.9",
