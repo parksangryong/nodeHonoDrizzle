@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { register, login } from "../controllers/auth";
-
+import { register, login, logout } from "../controllers/auth";
+import { HTTPException } from "hono/http-exception";
 const app = new Hono();
 
 app.post("/login", async (c) => {
@@ -22,4 +22,18 @@ app.post("/register", async (c) => {
     refreshToken: tokens.refreshToken,
   });
 });
+
+app.post("/logout", async (c) => {
+  const accessToken = c.req.header("Authorization")?.split(" ")[1];
+
+  if (!accessToken) {
+    throw new HTTPException(401, {
+      message: "Unauthorized",
+    });
+  }
+  await logout(accessToken);
+
+  return c.json({ message: "Logged out successfully" });
+});
+
 export default app;

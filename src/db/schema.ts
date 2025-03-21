@@ -50,3 +50,15 @@ export const comments = mysqlTable("comments", {
   createdAt: timestamp().defaultNow(),
   updatedAt: timestamp().defaultNow(),
 });
+
+export const tokens = mysqlTable("tokens", {
+  id: int().autoincrement().primaryKey(),
+  userId: int()
+    .notNull()
+    .references(() => users.id),
+  accessToken: varchar({ length: 255 }).notNull(),
+  refreshToken: varchar({ length: 255 }).notNull(),
+  expiresAt: timestamp().notNull(),
+  createdAt: timestamp().defaultNow(),
+  updatedAt: timestamp().defaultNow(),
+});

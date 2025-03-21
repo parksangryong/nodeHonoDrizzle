@@ -16,6 +16,7 @@ import { rateLimit } from "./middleware/rateLimit.middleware";
 import auth from "./routes/auth";
 import uploads from "./routes/uploads";
 import users from "./routes/users";
+import board from "./routes/board";
 
 const app = new Hono();
 
@@ -38,6 +39,7 @@ app.use("/uploads/*", authenticateToken);
 // 보호된 라우트들
 app.route("/users", users);
 app.route("/uploads", uploads);
+app.route("/boards", board);
 
 const PORT = process.env.PORT || 3000;
 
