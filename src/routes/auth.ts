@@ -27,8 +27,6 @@ app.post("/register", async (c) => {
 app.post("/logout", async (c) => {
   const accessToken = c.req.header("Authorization")?.split(" ")[1];
 
-  console.log("accessToken", accessToken);
-
   if (!accessToken) {
     throw new HTTPException(401, {
       message: "Unauthorized",
