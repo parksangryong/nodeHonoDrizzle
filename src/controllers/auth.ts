@@ -16,8 +16,16 @@ export const register = async (
     .insert(users)
     .values({ password, name, email, age });
 
-  const tokens = generateTokens(name, insertId);
-  return tokens;
+  const generatedTokens = generateTokens(name, insertId);
+
+  await db.insert(tokens).values({
+    userId: insertId,
+    accessToken: generatedTokens.accessToken,
+    refreshToken: generatedTokens.refreshToken,
+    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+  });
+
+  return generatedTokens;
 };
 
 export const login = async (email: string, password: string) => {
@@ -32,9 +40,16 @@ export const login = async (email: string, password: string) => {
     });
   }
 
-  const tokens = generateTokens(user.name, user.id);
+  const generatedTokens = generateTokens(user.name, user.id);
 
-  return tokens;
+  await db.insert(tokens).values({
+    userId: user.id,
+    accessToken: generatedTokens.accessToken,
+    refreshToken: generatedTokens.refreshToken,
+    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+  });
+
+  return generatedTokens;
 };
 
 export const logout = async (accessToken: string) => {
@@ -42,4 +57,6 @@ export const logout = async (accessToken: string) => {
   const { userId } = decoded as { userId: number };
 
   await db.delete(tokens).where(eq(tokens.userId, userId));
+
+  return { message: "로그아웃 성공" };
 };

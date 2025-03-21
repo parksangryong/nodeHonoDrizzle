@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { register, login, logout } from "../controllers/auth";
 import { HTTPException } from "hono/http-exception";
+
 const app = new Hono();
 
 app.post("/login", async (c) => {
@@ -25,6 +26,8 @@ app.post("/register", async (c) => {
 
 app.post("/logout", async (c) => {
   const accessToken = c.req.header("Authorization")?.split(" ")[1];
+
+  console.log("accessToken", accessToken);
 
   if (!accessToken) {
     throw new HTTPException(401, {
