@@ -12,8 +12,8 @@ const app = new Hono();
 
 const boardSchema = z.object({
   userId: z.number().min(1),
-  title: z.string().min(5),
-  content: z.string().min(10),
+  title: z.string().min(3),
+  content: z.string().min(3),
 });
 
 app.get("/", async (c) => {
