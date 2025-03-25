@@ -7,7 +7,7 @@ import {
   updateComment,
   deleteComment,
 } from "../controllers/comment";
-
+import { HTTPException } from "hono/http-exception";
 const app = new Hono();
 
 const commentSchema = z.object({
@@ -23,18 +23,38 @@ app.get("/", async (c) => {
   return c.json(comments);
 });
 
-app.post("/", zValidator("json", commentSchema), async (c) => {
-  const { userId, boardId, content } = c.req.valid("json");
-  await createComment(userId, boardId, content);
-  return c.json({ message: "Comment created successfully" });
-});
+app.post(
+  "/",
+  zValidator("json", commentSchema, (result, c) => {
+    if (!result.success) {
+      throw new HTTPException(400, {
+        message: "데이터 형식이 올바르지 않습니다.",
+      });
+    }
+  }),
+  async (c) => {
+    const { userId, boardId, content } = c.req.valid("json");
+    await createComment(userId, boardId, content);
+    return c.json({ message: "Comment created successfully" });
+  }
+);
 
-app.patch("/:id", zValidator("json", commentSchema), async (c) => {
-  const { id } = c.req.param();
-  const { userId, boardId, content } = c.req.valid("json");
-  await updateComment(Number(id), userId, boardId, content);
-  return c.json({ message: "Comment updated successfully" });
-});
+app.patch(
+  "/:id",
+  zValidator("json", commentSchema, (result, c) => {
+    if (!result.success) {
+      throw new HTTPException(400, {
+        message: "데이터 형식이 올바르지 않습니다.",
+      });
+    }
+  }),
+  async (c) => {
+    const { id } = c.req.param();
+    const { userId, boardId, content } = c.req.valid("json");
+    await updateComment(Number(id), userId, boardId, content);
+    return c.json({ message: "Comment updated successfully" });
+  }
+);
 
 app.delete("/:id", async (c) => {
   const { id } = c.req.param();

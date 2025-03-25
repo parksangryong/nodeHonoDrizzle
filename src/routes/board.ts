@@ -7,6 +7,7 @@ import {
   updateBoard,
   deleteBoard,
 } from "../controllers/board";
+import { HTTPException } from "hono/http-exception";
 
 const app = new Hono();
 
@@ -23,18 +24,38 @@ app.get("/", async (c) => {
   return c.json(boards);
 });
 
-app.post("/", zValidator("json", boardSchema), async (c) => {
-  const { userId, title, content } = c.req.valid("json");
-  await createBoard(userId, title, content);
-  return c.json({ message: "Board created successfully" });
-});
+app.post(
+  "/",
+  zValidator("json", boardSchema, (result, c) => {
+    if (!result.success) {
+      throw new HTTPException(400, {
+        message: "데이터 형식이 올바르지 않습니다.",
+      });
+    }
+  }),
+  async (c) => {
+    const { userId, title, content } = c.req.valid("json");
+    await createBoard(userId, title, content);
+    return c.json({ message: "Board created successfully" });
+  }
+);
 
-app.patch("/:id", zValidator("json", boardSchema), async (c) => {
-  const { id } = c.req.param();
-  const { userId, title, content } = c.req.valid("json");
-  await updateBoard(Number(id), userId, title, content);
-  return c.json({ message: "Board updated successfully" });
-});
+app.patch(
+  "/:id",
+  zValidator("json", boardSchema, (result, c) => {
+    if (!result.success) {
+      throw new HTTPException(400, {
+        message: "데이터 형식이 올바르지 않습니다.",
+      });
+    }
+  }),
+  async (c) => {
+    const { id } = c.req.param();
+    const { userId, title, content } = c.req.valid("json");
+    await updateBoard(Number(id), userId, title, content);
+    return c.json({ message: "Board updated successfully" });
+  }
+);
 
 app.delete("/:id", async (c) => {
   const { id } = c.req.param();

@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { createUser, getUsers } from "../controllers/users";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
+import { HTTPException } from "hono/http-exception";
 
 const app = new Hono();
 
@@ -21,14 +22,21 @@ app.get("/", async (c) => {
   });
 });
 
-app.post("/", zValidator("json", userSchema), async (c) => {
-  const { name, age, email } = c.req.valid("json");
-  await createUser(name, age, email);
-
-  return c.json({
-    success: true,
-    message: "유저 생성 성공",
-  });
-});
+app.post(
+  "/",
+  zValidator("json", userSchema, (result, c) => {
+    if (!result.success) {
+      throw new HTTPException(400, {
+        message: "데이터 형식이 올바르지 않습니다.",
+      });
+    }
+  }),
+  async (c) => {
+    return c.json({
+      success: true,
+      message: "유저 생성 성공",
+    });
+  }
+);
 
 export default app;
