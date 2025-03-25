@@ -35,7 +35,7 @@ app.post(
   async (c) => {
     const { userId, boardId, content } = c.req.valid("json");
     await createComment(userId, boardId, content);
-    return c.json({ message: "Comment created successfully" });
+    return c.json({ message: "댓글 생성에 성공했습니다." });
   }
 );
 
@@ -52,13 +52,13 @@ app.patch(
     const { id } = c.req.param();
     const { userId, boardId, content } = c.req.valid("json");
     await updateComment(Number(id), userId, boardId, content);
-    return c.json({ message: "Comment updated successfully" });
+    return c.json({ message: "댓글 수정에 성공했습니다." });
   }
 );
 
 app.delete("/:id", async (c) => {
   const { id } = c.req.param();
   await deleteComment(Number(id));
-  return c.json({ message: "Comment deleted successfully" });
+  return c.json({ message: "댓글 삭제에 성공했습니다." });
 });
 export default app;

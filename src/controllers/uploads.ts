@@ -1,25 +1,21 @@
 import type { Context } from "hono";
 import * as fs from "fs/promises";
 import * as path from "path";
+import { HTTPException } from "hono/http-exception";
 
 export const uploadFile = async (c: Context) => {
   try {
     // multipart/form-data 파싱
     const body = await c.req.formData();
-    console.log(body);
     const file = body.get("file") as File;
 
     console.log(body);
 
     // 파일 존재 여부 상세 체크
     if (!file || !(file instanceof File)) {
-      return c.json(
-        {
-          message: "파일이 없거나 올바른 형식이 아닙니다",
-          received: body.has("file") ? typeof file : "no file field",
-        },
-        400
-      );
+      throw new HTTPException(400, {
+        message: "파일이 없거나 올바른 형식이 아닙니다",
+      });
     }
 
     // 파일 정보 로깅
@@ -40,18 +36,14 @@ export const uploadFile = async (c: Context) => {
     await fs.writeFile(uploadPath, buffer);
 
     return c.json({
-      message: "파일 업로드 성공",
+      message: "파일 업로드에 성공했습니다.",
       fileName: file.name,
       path: uploadPath,
     });
   } catch (error) {
     console.error("파일 업로드 에러:", error);
-    return c.json(
-      {
-        message: "파일 업로드 실패",
-        error: error instanceof Error ? error.message : String(error),
-      },
-      500
-    );
+    throw new HTTPException(500, {
+      message: "파일 업로드에 실패했습니다.",
+    });
   }
 };

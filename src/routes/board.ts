@@ -35,8 +35,8 @@ app.post(
   }),
   async (c) => {
     const { userId, title, content } = c.req.valid("json");
-    await createBoard(userId, title, content);
-    return c.json({ message: "Board created successfully" });
+    const result = await createBoard(userId, title, content);
+    return c.json(result);
   }
 );
 
@@ -53,13 +53,13 @@ app.patch(
     const { id } = c.req.param();
     const { userId, title, content } = c.req.valid("json");
     await updateBoard(Number(id), userId, title, content);
-    return c.json({ message: "Board updated successfully" });
+    return c.json({ message: "게시글 수정에 성공했습니다." });
   }
 );
 
 app.delete("/:id", async (c) => {
   const { id } = c.req.param();
   await deleteBoard(Number(id));
-  return c.json({ message: "Board deleted successfully" });
+  return c.json({ message: "게시글 삭제에 성공했습니다." });
 });
 export default app;

@@ -15,11 +15,7 @@ const userSchema = z.object({
 app.get("/", async (c) => {
   const users = await getUsers();
 
-  return c.json({
-    success: true,
-    message: "유저 조회 성공",
-    data: users,
-  });
+  return c.json({ users });
 });
 
 app.post(
@@ -32,9 +28,12 @@ app.post(
     }
   }),
   async (c) => {
+    const { name, age, email } = c.req.valid("json");
+    await createUser(name, age, email);
+
     return c.json({
       success: true,
-      message: "유저 생성 성공",
+      message: "유저 생성에 성공했습니다.",
     });
   }
 );

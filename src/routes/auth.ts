@@ -29,12 +29,12 @@ app.post("/logout", async (c) => {
 
   if (!accessToken) {
     throw new HTTPException(401, {
-      message: "Unauthorized",
+      message: "토큰이 존재하지 않습니다.",
     });
   }
   await logout(accessToken);
 
-  return c.json({ message: "Logged out successfully" });
+  return c.json({ message: "로그아웃에 성공했습니다." });
 });
 
 export default app;

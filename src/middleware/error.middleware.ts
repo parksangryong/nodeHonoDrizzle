@@ -10,7 +10,6 @@ export const errorHandler = (app: Hono) => {
     if (err instanceof HTTPException) {
       return c.json(
         {
-          success: false,
           message: err.message,
         },
         err.status
@@ -20,7 +19,6 @@ export const errorHandler = (app: Hono) => {
     // 기타 에러 처리
     return c.json(
       {
-        success: false,
         message: err.message,
       },
       500
@@ -31,7 +29,6 @@ export const errorHandler = (app: Hono) => {
   app.notFound((c) => {
     return c.json(
       {
-        success: false,
         message: "요청하신 경로를 찾을 수 없습니다.",
       },
       404
