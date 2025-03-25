@@ -3,7 +3,6 @@ import { boards } from "../db/schema";
 import { eq, and } from "drizzle-orm";
 
 export const getBoards = async (offset: number, count: number) => {
-  console.log(offset, count);
   const board = await db.select().from(boards).limit(count).offset(offset);
 
   return {

@@ -17,6 +17,7 @@ import auth from "./routes/auth";
 import uploads from "./routes/uploads";
 import users from "./routes/users";
 import board from "./routes/board";
+import comment from "./routes/comment";
 
 const app = new Hono();
 
@@ -41,6 +42,7 @@ app.use("/boards/*", authenticateToken);
 app.route("/users", users);
 app.route("/uploads", uploads);
 app.route("/boards", board);
+app.route("/comments", comment);
 
 const PORT = process.env.PORT || 3000;
 
