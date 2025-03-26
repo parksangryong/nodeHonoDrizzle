@@ -1,5 +1,5 @@
 import { db } from "../db";
-import { boards } from "../db/schema";
+import { boards, comments } from "../db/schema";
 import { eq, and } from "drizzle-orm";
 
 export const getBoards = async (offset: number, count: number) => {
@@ -40,7 +40,13 @@ export const updateBoard = async (
 };
 
 export const deleteBoard = async (id: number) => {
-  const board = await db.delete(boards).where(eq(boards.id, id));
+  return await db.transaction(async (tx) => {
+    // 먼저 해당 게시물의 모든 댓글 삭제
+    await tx.delete(comments).where(eq(comments.boardId, id));
 
-  return board;
+    // 그 다음 게시물 삭제
+    const board = await tx.delete(boards).where(eq(boards.id, id));
+
+    return board;
+  });
 };
