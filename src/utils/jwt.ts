@@ -7,10 +7,10 @@ const REFRESH_TOKEN_SECRET =
 
 export const generateTokens = (username: string, userId: number) => {
   const accessToken = jwt.sign({ username, userId }, ACCESS_TOKEN_SECRET, {
-    expiresIn: "1h",
+    expiresIn: "10s",
   });
   const refreshToken = jwt.sign({ username, userId }, REFRESH_TOKEN_SECRET, {
-    expiresIn: "7d",
+    expiresIn: "30s",
   });
 
   return { accessToken, refreshToken };
