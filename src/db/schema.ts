@@ -55,7 +55,8 @@ export const tokens = mysqlTable("tokens", {
   id: int().autoincrement().primaryKey(),
   userId: int()
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id)
+    .unique(),
   accessToken: varchar({ length: 255 }).notNull(),
   refreshToken: varchar({ length: 255 }).notNull(),
   expiresAt: timestamp().notNull(),
