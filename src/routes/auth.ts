@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { register, login, logout } from "../controllers/auth";
+import { register, login, logout, refreshTokens } from "../controllers/auth";
 import { HTTPException } from "hono/http-exception";
 
 const app = new Hono();
@@ -35,6 +35,26 @@ app.post("/logout", async (c) => {
   await logout(accessToken);
 
   return c.json({ message: "로그아웃에 성공했습니다." });
+});
+
+app.post("/refresh", async (c) => {
+  const refreshToken = c.req.header("X-Refresh-Token");
+
+  if (!refreshToken) {
+    return c.json(
+      {
+        code: "JWT-002",
+        message: "리프레시 토큰이 필요합니다.",
+      },
+      401
+    );
+  }
+
+  const newTokens = await refreshTokens(refreshToken);
+  return c.json({
+    accessToken: newTokens.accessToken,
+    refreshToken: newTokens.refreshToken,
+  });
 });
 
 export default app;

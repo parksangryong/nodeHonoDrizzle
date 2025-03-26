@@ -1,6 +1,10 @@
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 
+interface CustomHTTPException extends HTTPException {
+  code?: string;
+}
+
 export const errorHandler = (app: Hono) => {
   // 전역 에러 처리
   app.onError((err, c) => {
@@ -8,11 +12,13 @@ export const errorHandler = (app: Hono) => {
 
     // HTTP 예외처리
     if (err instanceof HTTPException) {
+      const error = err as CustomHTTPException;
       return c.json(
         {
-          message: err.message,
+          message: error.message,
+          ...(error.code && { code: error.code }),
         },
-        err.status
+        error.status
       );
     }
 
@@ -20,6 +26,7 @@ export const errorHandler = (app: Hono) => {
     return c.json(
       {
         message: err.message,
+        ...(err instanceof Error && "code" in err && { code: err.code }),
       },
       500
     );
