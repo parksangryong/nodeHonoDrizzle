@@ -49,13 +49,13 @@ npm run deploy // 서버 배포
 ```
 
 ```sh # 스키마 생성
-npm run db:generate // 스키마 생성
+npm run db:pull // 현재 DB 스키마 가져오기
 ```
 
 ```sh # 스키마 저장
-npm run db:push // 스키마 저장
+npm run db:push // 현재 스키마를 DB에 저장
 ```
 
 ```sh # 스키마 확인
-npm run db:studio // 스키마 확인
+npm run db:studio // 현재 스키마를 확인
 ```
