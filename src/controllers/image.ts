@@ -6,7 +6,27 @@ import fs from "fs";
 
 export const listFiles = async (c: Context) => {
   const files = await db.select().from(uploads);
-  return c.json({ files });
+
+  const formatFileSize = (size: number) => {
+    if (size < 1024) return `${size} B`;
+    if (size < 1024 * 1024) return `${(size / 1024).toFixed(2)} KB`;
+    if (size < 1024 * 1024 * 1024)
+      return `${(size / 1024 / 1024).toFixed(2)} MB`;
+    return `${(size / 1024 / 1024 / 1024).toFixed(2)} GB`;
+  };
+
+  return c.json({
+    files: files.map((file) => ({
+      id: file.id,
+      userId: file.userId,
+      fileUrl: file.fileUrl,
+      fileName: file.fileName,
+      fileType: file.fileType,
+      fileSize: formatFileSize(file.fileSize),
+      createdAt: file.createdAt,
+      updatedAt: file.updatedAt,
+    })),
+  });
 };
 
 export const deleteFile = async (c: Context) => {
