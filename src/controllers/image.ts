@@ -17,7 +17,7 @@ export const downloadFile = async (c: Context) => {
   }
 
   // 파일 시스템에서 파일 존재 확인
-  const filePath = `uploads/${file.fileUrl}`;
+  const filePath = file.fileUrl;
   if (!fs.existsSync(filePath)) {
     return c.json({ error: "파일이 서버에 존재하지 않습니다" }, 404);
   }
