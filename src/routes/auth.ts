@@ -40,8 +40,6 @@ app.post("/logout", async (c) => {
 app.post("/refresh", async (c) => {
   const { refreshToken } = await c.req.json();
 
-  console.log("refreshToken", refreshToken);
-
   if (!refreshToken) {
     return c.json(
       {

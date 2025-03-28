@@ -16,7 +16,6 @@ export const authenticateToken = async (c: Context, next: Next) => {
       401
     );
   }
-  console.log("accessToken", accessToken);
 
   try {
     const decoded = verifyAccessToken(accessToken);

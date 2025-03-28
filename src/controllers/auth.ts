@@ -108,9 +108,6 @@ export const refreshTokens = async (refreshToken: string, c: Context) => {
       .from(tokens)
       .where(eq(tokens.userId, userId));
 
-    console.log("storedToken", storedToken?.refreshToken);
-    console.log("refreshToken", refreshToken);
-
     if (!storedToken || storedToken.refreshToken !== refreshToken) {
       console.log("리프레시 토큰 유효하지 않음");
       throw new Error("Invalid refresh token");
@@ -118,8 +115,6 @@ export const refreshTokens = async (refreshToken: string, c: Context) => {
 
     // 액세스 토큰만 새로 생성
     const newAccessToken = generateTokens(username, userId).accessToken;
-
-    console.log("newAccessToken", newAccessToken);
 
     // DB 액세스 토큰 정보만 업데이트
     await db
