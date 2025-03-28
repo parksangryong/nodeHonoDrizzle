@@ -1,9 +1,22 @@
 import { db } from "../db";
-import { comments } from "../db/schema";
-import { eq, and } from "drizzle-orm";
+import { comments, users } from "../db/schema";
+import { eq, and, desc } from "drizzle-orm";
 
 export const getComments = async (offset: number, count: number) => {
-  const comment = await db.select().from(comments).limit(count).offset(offset);
+  const comment = await db
+    .select({
+      id: comments.id,
+      content: comments.content,
+      createdAt: comments.createdAt,
+      updatedAt: comments.updatedAt,
+      userId: comments.userId,
+      username: users.name,
+    })
+    .from(comments)
+    .leftJoin(users, eq(comments.userId, users.id))
+    .limit(count)
+    .offset(offset)
+    .orderBy(desc(comments.createdAt));
 
   return {
     commentList: comment,

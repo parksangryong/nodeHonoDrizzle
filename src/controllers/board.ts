@@ -1,9 +1,14 @@
 import { db } from "../db";
 import { boards, comments } from "../db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm";
 
 export const getBoards = async (offset: number, count: number) => {
-  const board = await db.select().from(boards).limit(count).offset(offset);
+  const board = await db
+    .select()
+    .from(boards)
+    .limit(count)
+    .offset(offset)
+    .orderBy(desc(boards.createdAt));
 
   return {
     boardList: board,
