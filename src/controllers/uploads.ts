@@ -2,14 +2,16 @@ import type { Context } from "hono";
 import * as fs from "fs/promises";
 import * as path from "path";
 import { HTTPException } from "hono/http-exception";
+import { db } from "../db";
+import { uploads } from "../db/schema";
 
 export const uploadFile = async (c: Context) => {
   try {
+    console.log("$$$$ uploadFile");
     // multipart/form-data 파싱
     const body = await c.req.formData();
     const file = body.get("file") as File;
-
-    console.log(body);
+    const userId = body.get("userId") as string;
 
     // 파일 존재 여부 상세 체크
     if (!file || !(file instanceof File)) {
@@ -34,6 +36,12 @@ export const uploadFile = async (c: Context) => {
     // uploads 폴더에 파일 저장
     const uploadPath = path.join(uploadsDir, file.name);
     await fs.writeFile(uploadPath, buffer);
+
+    // DB에 저장
+    await db.insert(uploads).values({
+      userId: parseInt(userId),
+      fileUrl: uploadPath,
+    });
 
     return c.json({
       message: "파일 업로드에 성공했습니다.",
