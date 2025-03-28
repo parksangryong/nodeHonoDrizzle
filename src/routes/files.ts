@@ -1,16 +1,15 @@
 import { Hono } from "hono";
 import { uploadFile } from "../controllers/uploads";
 import { downloadFile, listFiles, deleteFile } from "../controllers/image";
-import { authenticateToken } from "../middleware/auth.middleware";
 
 const app = new Hono();
 
-app.post("/upload", authenticateToken, uploadFile);
+app.post("/upload", uploadFile);
 
-app.get("/download/:id", authenticateToken, downloadFile);
+app.get("/download/:id", downloadFile);
 
-app.get("/list", authenticateToken, listFiles);
+app.get("/list", listFiles);
 
-app.delete("/:id", authenticateToken, deleteFile);
+app.delete("/:id", deleteFile);
 
 export default app;

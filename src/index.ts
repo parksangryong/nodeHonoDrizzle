@@ -44,7 +44,7 @@ app.route("/auth", auth);
 app.use("/users/*", authenticateToken);
 app.use("/boards/*", authenticateToken);
 app.use("/comments/*", authenticateToken);
-
+app.use("/files/*", authenticateToken);
 // 보호된 라우트들
 app.route("/users", users);
 app.route("/files", files);
