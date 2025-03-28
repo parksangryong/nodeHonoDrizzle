@@ -19,7 +19,12 @@ const commentSchema = z.object({
 app.get("/", async (c) => {
   const offset = c.req.query("offset") || 0;
   const count = c.req.query("count") || 10;
-  const comments = await getComments(Number(offset), Number(count));
+  const boardId = c.req.query("boardId");
+  const comments = await getComments(
+    Number(offset),
+    Number(count),
+    Number(boardId)
+  );
   return c.json(comments);
 });
 
