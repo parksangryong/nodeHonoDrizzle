@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { uploadFile } from "../controllers/uploads";
-import { downloadFile, listFiles, deleteFile } from "../controllers/image";
+import { downloadFile } from "../controllers/download";
+import { listFiles, deleteFile } from "../controllers/image";
 
 const app = new Hono();
 

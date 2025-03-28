@@ -34,6 +34,9 @@ export const uploadFile = async (c: Context) => {
     console.log("파일 타입:", file.type);
     console.log("파일 크기:", file.size);
 
+    // 파일명에서 위험한 문자 제거
+    const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "");
+
     // 파일을 버퍼로 변환
     const buffer = Buffer.from(await file.arrayBuffer());
 
@@ -42,7 +45,7 @@ export const uploadFile = async (c: Context) => {
     await fs.mkdir(uploadsDir, { recursive: true });
 
     // uploads 폴더에 파일 저장
-    const uploadPath = path.join(uploadsDir, file.name);
+    const uploadPath = path.join(uploadsDir, sanitizedFileName);
 
     // 이미지 파일인 경우 압축 처리
     if (file.type.startsWith("image/")) {
