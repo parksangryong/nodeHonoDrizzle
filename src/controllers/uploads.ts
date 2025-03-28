@@ -4,6 +4,7 @@ import * as path from "path";
 import { HTTPException } from "hono/http-exception";
 import { db } from "../db";
 import { uploads } from "../db/schema";
+import sharp from "sharp"; // 이미지 처리를 위한 라이브러리 추가 필요
 
 export const uploadFile = async (c: Context) => {
   try {
@@ -20,14 +21,21 @@ export const uploadFile = async (c: Context) => {
       });
     }
 
+    // 파일 크기 제한 (예: 10MB)
+    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+    if (file.size > MAX_FILE_SIZE) {
+      throw new HTTPException(400, {
+        message: "파일 크기가 10MB를 초과합니다",
+      });
+    }
+
     // 파일 정보 로깅
     console.log("파일명:", file.name);
     console.log("파일 타입:", file.type);
     console.log("파일 크기:", file.size);
 
     // 파일을 버퍼로 변환
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    const buffer = Buffer.from(await file.arrayBuffer());
 
     // uploads 폴더 생성 (없는 경우)
     const uploadsDir = "uploads";
@@ -35,7 +43,22 @@ export const uploadFile = async (c: Context) => {
 
     // uploads 폴더에 파일 저장
     const uploadPath = path.join(uploadsDir, file.name);
-    await fs.writeFile(uploadPath, buffer);
+
+    // 이미지 파일인 경우 압축 처리
+    if (file.type.startsWith("image/")) {
+      const compressedImage = await sharp(buffer)
+        .resize(1200, 1200, {
+          // 최대 크기 제한
+          fit: "inside",
+          withoutEnlargement: true,
+        })
+        .jpeg({ quality: 80 }) // JPEG 포맷으로 변환 및 품질 조정
+        .toBuffer();
+
+      await fs.writeFile(uploadPath, compressedImage);
+    } else {
+      await fs.writeFile(uploadPath, buffer);
+    }
 
     // DB에 저장
     await db.insert(uploads).values({
