@@ -14,7 +14,7 @@ import { rateLimit } from "./middleware/rateLimit.middleware";
 
 //routes
 import auth from "./routes/auth";
-import uploads from "./routes/uploads";
+import files from "./routes/files";
 import users from "./routes/users";
 import board from "./routes/board";
 import comment from "./routes/comment";
@@ -47,7 +47,7 @@ app.use("/comments/*", authenticateToken);
 
 // 보호된 라우트들
 app.route("/users", users);
-app.route("/files", uploads);
+app.route("/files", files);
 app.route("/boards", board);
 app.route("/comments", comment);
 
