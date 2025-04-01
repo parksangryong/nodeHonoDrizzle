@@ -12,10 +12,9 @@ import { errorHandler } from "./middleware/error.middleware";
 import { authenticateToken } from "./middleware/auth.middleware";
 import { rateLimit } from "./middleware/rateLimit.middleware";
 
-//routes
-import auth from "./routes/auth";
-import files from "./routes/files";
-import users from "./routes/users";
+import auth from "./routes/auth/auth.controller";
+import files from "./routes/file/file.controller";
+import users from "./routes/user/user.controller";
 
 const app = new Hono();
 
