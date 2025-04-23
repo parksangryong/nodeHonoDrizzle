@@ -1,6 +1,6 @@
 import { db } from "../../db";
 import { users, tokens } from "../../db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 // utils
 import { generateTokens } from "../../utils/jwt";
@@ -13,9 +13,6 @@ import { jwtDecode } from "jwt-decode";
 
 // schema
 import type { LoginRequest, RegisterRequest } from "./auth.schema";
-
-// middleware
-import { AuthException } from "../../middleware/error.middleware";
 
 // constants
 import { Errors } from "../../constants/error";
