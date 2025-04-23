@@ -4,7 +4,11 @@ import { eq, and } from "drizzle-orm";
 
 // utils
 import { generateTokens } from "../../utils/jwt";
-import { comparePassword, saveTokens } from "../../utils/auth.util";
+import {
+  comparePassword,
+  hashPassword,
+  saveTokens,
+} from "../../utils/auth.util";
 import { jwtDecode } from "jwt-decode";
 
 // schema
@@ -36,9 +40,11 @@ export const register = async ({
     throw new Error(Errors.AUTH.USER_EXISTS.code);
   }
 
+  const hashedPassword = await hashPassword(password);
+
   const [{ insertId }] = await db
     .insert(users)
-    .values({ password, name, email, age });
+    .values({ password: hashedPassword, name, email, age });
 
   const generatedTokens = saveTokens(insertId, name);
   return generatedTokens;
