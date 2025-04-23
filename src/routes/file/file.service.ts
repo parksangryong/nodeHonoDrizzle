@@ -52,6 +52,10 @@ export const uploadFile: Handler = async (c: Context) => {
       throw new Error(Errors.FILE.INVALID_FILE.code);
     }
 
+    if (!userId) {
+      throw new Error(Errors.FILE.INVALID_USER_ID.code);
+    }
+
     if (!ALLOWED_IMAGE_TYPES.includes(file.type as any)) {
       throw new Error(Errors.FILE.INVALID_IMAGE_TYPE.code);
     }
