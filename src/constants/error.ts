@@ -77,6 +77,11 @@ export const Errors = {
       status: 400,
       message: "파일 업로드에 실패했습니다",
     },
+    INVALID_FILE: {
+      code: "FILE-006",
+      status: 400,
+      message: "파일이 없거나 올바른 형식이 아닙니다",
+    },
   },
   SERVER: {
     INTERNAL_ERROR: {
