@@ -10,8 +10,6 @@ const ALLOWED_IMAGE_TYPES = [
   "image/ico",
 ];
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_FILE_SIZE = 20 * 1024 * 1024; // 10MB
 
-const UPLOADS_DIR = "uploads";
-
-export { ALLOWED_IMAGE_TYPES, MAX_FILE_SIZE, UPLOADS_DIR };
+export { ALLOWED_IMAGE_TYPES, MAX_FILE_SIZE };
