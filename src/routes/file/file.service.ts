@@ -49,7 +49,7 @@ export const uploadFile: Handler = async (c: Context) => {
 
     // 파일 유효성 검사
     if (!file || !(file instanceof File)) {
-      throw new Error(Errors.FILE.INVALID_FILE.code);
+      throw new Error(Errors.FILE.FILE_NOT_FOUND.code);
     }
 
     if (!userId) {
