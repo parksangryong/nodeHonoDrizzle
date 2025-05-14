@@ -107,7 +107,7 @@ export const refreshTokens = async (
   ).accessToken;
 
   await redis.set(`access_token:${decoded.userId}`, newAccessToken, {
-    EX: ACCESS_TOKEN_EXPIRATION_TIME,
+    EX: ACCESS_TOKEN_EXPIRATION_TIME * 60,
   });
 
   return {
