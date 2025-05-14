@@ -12,14 +12,14 @@ const saveTokens = async (userId: number, name: string) => {
   const generatedTokens = generateTokens(name, userId);
 
   await redis.set(`access_token:${userId}`, generatedTokens.accessToken, {
-    EX: ACCESS_TOKEN_EXPIRATION_TIME,
+    EX: ACCESS_TOKEN_EXPIRATION_TIME * 60,
   });
 
   await redis.set(
     `refresh_token:${userId}`,
     JSON.stringify(generatedTokens.refreshToken),
     {
-      EX: REFRESH_TOKEN_EXPIRATION_TIME,
+      EX: REFRESH_TOKEN_EXPIRATION_TIME * 60 * 60 * 24,
     }
   );
 
